@@ -278,20 +278,17 @@
     }
 
     .btn-buy{
+  /* hereda tamaño de .btn */
   background: linear-gradient(90deg, rgba(34,197,94,.28), rgba(34,197,94,.12));
   border: 1px solid rgba(34,197,94,.45);
   color: #eafff2;
   font-weight: 900;
   text-decoration:none;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 12px;
-  border-radius: 12px;
 }
 .btn-buy:hover{
   border-color: rgba(34,197,94,.85);
 }
+
 
 
     /* Modal */
@@ -350,7 +347,7 @@
     }
 
     .modal-img{
-      aspect-ratio: 16/10;
+      aspect-ratio: 1/1;
       background:#0a1020;
       border-radius: 14px;
       overflow:hidden;
@@ -359,7 +356,7 @@
     .modal-img img{
       width:100%;
       height:100%;
-      object-fit:cover;
+      object-fit: contain;  /* ✅ no se corta */
       display:block;
     }
 
@@ -752,9 +749,9 @@ function buildCardHTML(x, realIndex){
 
   const nStock = toNumberStock(x.stock);
 
-  const buyBtn = (nStock > 0)
-    ? `<a class="btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
-    : "";
+ const buyBtn = (nStock > 0)
+  ? `<a class="btn btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
+  : "";
   const tag = String(
   x.tag ?? x.renovable ?? x.estado ?? x.badge ?? x.F ?? x.colF ?? ""
 ).trim();
