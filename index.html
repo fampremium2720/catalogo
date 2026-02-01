@@ -215,6 +215,22 @@
       margin-top:8px;
     }
 
+    .btn-buy{
+  background: linear-gradient(90deg, rgba(34,197,94,.28), rgba(34,197,94,.12));
+  border: 1px solid rgba(34,197,94,.45);
+  color: #eafff2;
+  font-weight: 900;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 12px;
+  border-radius: 12px;
+}
+.btn-buy:hover{
+  border-color: rgba(34,197,94,.85);
+}
+
     /* CARRUSEL SOLO MÓVIL */
     .carousel{
       display:none;
@@ -511,7 +527,7 @@
 function buildCardHTML(x, i){
   const img = x.imagen
     ? `<img
-         src="${escapeHtml(x.imagen).replace(/sz=w\d+/,'sz=w400')}"
+         src="${escapeHtml(x.imagen).replace(/sz=w\\d+/,'sz=w400')}"
          alt="${escapeHtml(x.nombre)}"
          loading="lazy"
          decoding="async"
@@ -519,25 +535,32 @@ function buildCardHTML(x, i){
        >`
     : `<div class="status">Sin imagen</div>`;
 
+  const nStock = toNumberStock(x.stock);
 
-      return `
-        <div class="card">
-          <div class="img">${img}</div>
-          <div class="content">
-            <div class="name">${escapeHtml(x.nombre || "Sin nombre")}</div>
+  const buyBtn = (nStock > 0)
+    ? `<a class="btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
+    : "";
 
-            <div class="row">
-              <div class="price">${priceText(x.precio)}</div>
-              <div>${stockBadge(x.stock)}</div>
-            </div>
+  return `
+    <div class="card">
+      <div class="img">${img}</div>
+      <div class="content">
+        <div class="name">${escapeHtml(x.nombre || "Sin nombre")}</div>
 
-            <div class="actions">
-              <button class="btn btn-primary" onclick="openDetalles(${i})">Ver detalles</button>
-            </div>
-          </div>
+        <div class="row">
+          <div class="price">${priceText(x.precio)}</div>
+          <div>${stockBadge(x.stock)}</div>
         </div>
-      `;
-    }
+
+        <div class="actions">
+          <button class="btn btn-primary" onclick="openDetalles(${i})">Ver detalles</button>
+          ${buyBtn}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 
     function getFiltered(){
       const q = $("q").value.trim().toLowerCase();
