@@ -737,7 +737,7 @@
 function buildCardHTML(x, realIndex){
   const img = x.imagen
     ? `<img
-         src="${escapeHtml(x.imagen).replace(/sz=w\\d+/,'sz=w400')}"
+         src="${escapeHtml(x.imagen).replace(/sz=w\d+/,'sz=w400')}"
          alt="${escapeHtml(x.nombre)}"
          loading="lazy"
          decoding="async"
@@ -747,47 +747,47 @@ function buildCardHTML(x, realIndex){
 
   const nStock = toNumberStock(x.stock);
 
- const buyBtn = (nStock > 0)
-  ? `<a class="btn btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
-  : "";
-const tag = String(
-  x.tag ?? x.renovable ?? x.estado ?? x.badge ?? x.F ?? x.colF ?? ""
-).trim();
+  const buyBtn = (nStock > 0)
+    ? `<a class="btn btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
+    : `<span></span>`; // para que el grid 2 columnas no se rompa
 
-const tagChip = tag ? `<span class="chip tag">${escapeHtml(tag)}</span>` : "";
+  const tag = String(
+    x.tag ?? x.renovable ?? x.estado ?? x.badge ?? x.F ?? x.colF ?? ""
+  ).trim();
 
-// Stock chip
-const n = toNumberStock(x.stock);
-let stockChip = "";
-if (!n || n <= 0) stockChip = `<span class="chip bad">⛔ Agotado</span>`;
-else if (n <= 10) stockChip = `<span class="chip ok">✅ Stock: ${n}</span>`;
-else stockChip = `<span class="chip ok">✅ Hay stock</span>`;
+  const tagChip = tag ? `<span class="chip tag">${escapeHtml(tag)}</span>` : "";
 
-
+  // Stock chip
+  let stockChip = "";
+  if (!nStock || nStock <= 0) stockChip = `<span class="chip bad">⛔ Agotado</span>`;
+  else if (nStock <= 10) stockChip = `<span class="chip ok">✅ Stock: ${nStock}</span>`;
+  else stockChip = `<span class="chip ok">✅ Hay stock</span>`;
 
   return `
-  <div class="card">
-    <div class="img">${img}</div>
+    <div class="card">
+      <div class="img">${img}</div>
 
-    <div class="content">
-      <div class="metaRow">
-        ${tagChip}
-        ${stockChip}
-      </div>
+      <div class="content">
+        <div class="metaRow">
+          ${tagChip}
+          ${stockChip}
+        </div>
 
-      <div class="name">${escapeHtml(x.nombre || "Sin nombre")}</div>
+        <div class="name">${escapeHtml(x.nombre || "Sin nombre")}</div>
 
-      <div class="row">
-        <div class="price">${priceText(x.precio)}</div>
-      </div>
+        <div class="row">
+          <div class="price">${priceText(x.precio)}</div>
+        </div>
 
-      <div class="actions">
-        <button class="btn btn-primary" onclick="openDetalles(${realIndex})">Ver detalles</button>
-        ${buyBtn}
+        <div class="actions">
+          <button class="btn btn-primary" onclick="openDetalles(${realIndex})">Ver detalles</button>
+          ${buyBtn}
+        </div>
       </div>
     </div>
-  </div>
-`;
+  `;
+}
+
 
 
 
