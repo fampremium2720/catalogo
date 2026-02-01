@@ -166,6 +166,12 @@
   transform: translateX(-50%);
   z-index:2;
 }
+.imgOverlayBottom{
+  max-width: 92%;
+}
+.imgOverlayBottom .badge{
+  text-align:center;
+}
 
 /* Fondo suave para que se lea sobre imágenes claras */
 .badge.overlay{
@@ -188,11 +194,14 @@
 }
 
     .img img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
+  width:100%;
+  height:100%;
+  object-fit: contain;          /* ✅ NO RECORTA */
+  object-position: center;
+  display:block;
+  transform: scale(0.98);       /* ✅ look premium (no pegado a borde) */
+}
+
 
     .content{
       padding:14px;
@@ -729,7 +738,11 @@ function buildCardHTML(x, realIndex){
   const buyBtn = (nStock > 0)
     ? `<a class="btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
     : "";
-  const tag = String(x.tag || "").trim();
+  const tag = String(
+  x.tag ?? x.renovable ?? x.estado ?? x.badge ?? x.F ?? x.colF ?? ""
+).trim();
+
+
   const tagBadge = tag ? `<span class="badge overlay tag">${escapeHtml(tag)}</span>` : "";
   const stockOverlay = stockBadge(x.stock)
   .replace('badge ok','badge overlay ok')
