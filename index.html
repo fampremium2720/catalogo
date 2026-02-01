@@ -23,11 +23,15 @@
 
     *{ box-sizing:border-box; }
     body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
-      color:var(--text);
-      background: linear-gradient(180deg, #070a10, var(--bg));
-    }
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
+  color:var(--text);
+  background:
+    radial-gradient(900px 520px at 14% 10%, rgba(34,197,94,.20), transparent 60%),
+    radial-gradient(900px 520px at 86% 18%, rgba(56,189,248,.18), transparent 60%),
+    linear-gradient(180deg, #050812, var(--bg));
+}
+
 
     .wrap{
       max-width:1100px;
@@ -112,19 +116,19 @@
 
 
     /* GRID (PC / tablet) */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-      margin-top:14px;
-    }
-    @media (max-width:980px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
-
-    /* En móvil: ocultamos grid y usamos carrusel */
-    @media (max-width:640px){
-      .grid{ display:none; }
-      input[type="search"]{ min-width: 100%; width:100%; }
-    }
+    /* GRID FIJO */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr); /* PC 4 */
+  gap:14px;
+  margin-top:14px;
+}
+@media (max-width:980px){
+  .grid{ grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width:720px){
+  .grid{ grid-template-columns: repeat(2, 1fr); } /* Cel 2 */
+}
 
     .card{
       background: rgba(18,26,38,.95);
@@ -231,29 +235,6 @@
   border-color: rgba(34,197,94,.85);
 }
 
-    /* CARRUSEL SOLO MÓVIL */
-    .carousel{
-      display:none;
-      margin-top:14px;
-    }
-    @media (max-width:640px){
-      .carousel{ display:block; }
-    }
-    .carousel-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:10px;
-      flex-wrap:wrap;
-    }
-    .carousel-ind{
-      font-size:13px;
-      color:var(--muted);
-    }
-    .carousel-stage{
-      width:100%;
-    }
 
     /* Modal */
     .overlay{
@@ -371,47 +352,212 @@
       font-size: 12px;
       color: var(--muted);
     }
+
+    /* HERO SEARCH */
+.hero{
+  margin-top:14px;
+  border-radius: 22px;
+  padding: 18px 16px 16px;
+  background:
+    radial-gradient(900px 260px at 20% 0%, rgba(34,197,94,.22), transparent 60%),
+    radial-gradient(900px 260px at 85% 10%, rgba(56,189,248,.18), transparent 60%),
+    rgba(18,26,38,.55);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: 0 18px 55px rgba(0,0,0,.45);
+}
+
+.hero-title{
+  margin:0 0 12px;
+  font-size:22px;
+  font-weight: 1000;
+  letter-spacing:.2px;
+  text-align:center;
+}
+.hero-title .brandAccent{
+  color:#38bdf8;
+  font-style: italic;
+}
+
+.hero-search{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.hero-search input[type="search"]{
+  width: min(620px, 100%);
+  background: rgba(8,14,32,.60);
+  border: 1px solid rgba(255,255,255,.14);
+  color: var(--text);
+  padding:14px 14px;
+  border-radius: 16px;
+  outline:none;
+  font-size:15px;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.hero-search input[type="search"]:focus{
+  border-color: rgba(34,197,94,.55);
+  box-shadow: 0 0 0 4px rgba(34,197,94,.14), 0 0 30px rgba(56,189,248,.10);
+}
+
+/* Banner noticia */
+.banner{
+  margin-top:14px;
+  border-radius: 18px;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(18,26,38,.35);
+  display:none;
+}
+.banner img{
+  width:100%;
+  display:block;
+  object-fit:cover;
+}
+
+/* Filtros iconos */
+.filters{
+  margin-top:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.filters-title{
+  font-size:16px;
+  font-weight:1000;
+  letter-spacing:.2px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  white-space: nowrap;
+}
+
+.iconNav{
+  width:44px;height:44px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  border:1px solid rgba(34,197,94,.45);
+  background: linear-gradient(135deg, rgba(34,197,94,.24), rgba(56,189,248,.16));
+  color: #e2e8f0;
+  font-weight: 1000;
+}
+.iconNav:hover{ border-color: rgba(34,197,94,.85); }
+
+.iconStrip{ flex:1; overflow:hidden; }
+
+.iconRow{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:10px 2px;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.iconRow::-webkit-scrollbar{ display:none; }
+
+.iconBtn{
+  min-width:56px; width:56px; height:56px;
+  border-radius:999px;
+  border: 3px solid rgba(255,255,255,.92); /* borde blanco */
+  background: rgba(0,0,0,.25);
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  flex: 0 0 auto;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  box-shadow: 0 10px 22px rgba(0,0,0,.35); /* sombra premium */
+}
+
+.iconBtn img{
+  width:100%;
+  height:100%;
+  border-radius:999px;
+  object-fit:cover;
+}
+
+.iconBtn:hover{ transform: translateY(-1px); }
+
+.iconBtn.active{
+  border-color: rgba(34,197,94,.95);
+  box-shadow: 0 0 0 4px rgba(34,197,94,.16), 0 0 32px rgba(56,189,248,.14);
+}
+
+/* Badge tag (Renovable / No renovable / texto libre) */
+.badge.tag{
+  color: rgba(226,232,240,.92);
+  border-color: rgba(56,189,248,.25);
+  background: rgba(56,189,248,.08);
+}
+
+/* Botón extra: Buscar película */
+.btn-movie{
+  background: linear-gradient(90deg, rgba(56,189,248,.22), rgba(34,197,94,.12));
+  border: 1px solid rgba(56,189,248,.35);
+  font-weight: 900;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.btn-movie:hover{ border-color: rgba(56,189,248,.70); }
+
   </style>
 </head>
 
 <body>
   <div class="wrap">
     <header>
-      <div class="brand">
-        <h1>🧾 Catálogo de Servicios</h1>
-        <div class="sub">Selecciona un servicio y revisa los detalles.</div>
-      </div>
+  <div class="brand" style="display:flex; align-items:center; gap:10px;">
+    <img id="logoTop" alt="TopStreaming" style="height:44px; width:auto; display:none; border-radius:12px;">
+    <div>
+      <h1 style="margin:0; font-size:18px; font-weight:1000; letter-spacing:.2px;">TopStreaming</h1>
+      <div class="sub">Planes, cuentas y servicios disponibles.</div>
+    </div>
+  </div>
 
-<div class="tools">
-  <button class="btn btn-portal" id="btnPortal">👤 Portal Clientes</button>
+  <div class="tools">
+    <button class="btn btn-portal" id="btnPortal">👤 Portal Clientes</button>
 
-  <a class="btn btn-wa" href="https://wa.link/fzemlu" target="_blank" rel="noopener">
-    <span class="wa-dot"></span> WhatsApp
-  </a>
+    <a class="btn btn-wa" href="https://wa.link/fzemlu" target="_blank" rel="noopener">
+      <span class="wa-dot"></span> WhatsApp
+    </a>
 
-  <input id="q" type="search" placeholder="Buscar por nombre..." />
-  <button class="btn" id="btnReload">🔄 Actualizar</button>
+    <a class="btn btn-movie" href="https://www.justwatch.com/pe" target="_blank" rel="noopener">
+      🍿 Buscar película
+    </a>
+
+    <button class="btn" id="btnReload">🔄 Actualizar</button>
+  </div>
+</header>
+
+    <div class="hero">
+  <div class="hero-title">👀👉 Busca tu producto en <span class="brandAccent">TopStreaming</span></div>
+  <div class="hero-search">
+    <input id="q" type="search" placeholder="Buscar Netflix, Disney, Prime, IPTV..." />
+  </div>
 </div>
 
-    </header>
+<div class="banner" id="bannerBox">
+  <img id="bannerImg" alt="Noticia TopStreaming">
+</div>
+
+<div class="filters">
+  <div class="filters-title">⚡ Servicios populares</div>
+  <button class="iconNav" id="iconPrev" aria-label="Anterior">◀</button>
+  <div class="iconStrip">
+    <div class="iconRow" id="iconRow"></div>
+  </div>
+  <button class="iconNav" id="iconNext" aria-label="Siguiente">▶</button>
+</div>
 
     <div class="status" id="status">Cargando…</div>
-
-    <!-- CARRUSEL (solo móvil) -->
-    <div class="carousel" id="carousel">
-      <div class="carousel-top">
-        <div class="carousel-ind" id="carInd">—</div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn" id="carPrev">◀</button>
-          <button class="btn" id="carNext">▶</button>
-        </div>
-      </div>
-      <div class="carousel-stage" id="carStage"></div>
-    </div>
-
-    <!-- GRID (PC / tablet) -->
     <div class="grid" id="grid"></div>
-  </div>
+    </div>
 
   <!-- Modal Detalles -->
   <div class="overlay" id="overlayDetalles" role="dialog" aria-modal="true">
@@ -490,9 +636,8 @@
     let servicios = [];
     let seleccionado = null;
 
-    // Carrusel móvil
-    let carIndex = 0;
-    let carFiltered = [];
+    let meta = { logoUrl:"", bannerUrl:"", icons:[] };
+    let activeFilter = ""; // filtro por icono (ej. "Netflix")
 
     const $ = (id) => document.getElementById(id);
 
@@ -514,10 +659,12 @@
 
     // ✅ Stock sin números
     function stockBadge(stock){
-      const n = toNumberStock(stock);
-      if (n > 0) return `<span class="badge ok">✅ Hay stock</span>`;
-      return `<span class="badge bad">⛔ Agotado</span>`;
-    }
+  const n = toNumberStock(stock);
+  if (!n || n <= 0) return `<span class="badge bad">⛔ Agotado</span>`;
+  if (n <= 10) return `<span class="badge ok">✅ Hay stock: ${n}</span>`;
+  return `<span class="badge ok">✅ Hay stock</span>`;
+}
+
 
     function priceText(p){
       const v = String(p ?? "").trim();
@@ -540,6 +687,8 @@ function buildCardHTML(x, i){
   const buyBtn = (nStock > 0)
     ? `<a class="btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
     : "";
+  const tag = String(x.tag || "").trim();
+  const tagBadge = tag ? `<span class="badge tag">${escapeHtml(tag)}</span>` : "";
 
   return `
     <div class="card">
@@ -548,9 +697,13 @@ function buildCardHTML(x, i){
         <div class="name">${escapeHtml(x.nombre || "Sin nombre")}</div>
 
         <div class="row">
-          <div class="price">${priceText(x.precio)}</div>
-          <div>${stockBadge(x.stock)}</div>
-        </div>
+  <div class="price">${priceText(x.precio)}</div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
+    ${tagBadge}
+    ${stockBadge(x.stock)}
+  </div>
+</div>
+
 
         <div class="actions">
           <button class="btn btn-primary" onclick="openDetalles(${i})">Ver detalles</button>
@@ -563,56 +716,37 @@ function buildCardHTML(x, i){
 
 
     function getFiltered(){
-      const q = $("q").value.trim().toLowerCase();
-      return servicios.filter(x => (x.nombre || "").toLowerCase().includes(q));
-    }
+  const q = $("q").value.trim().toLowerCase();
+  const f = String(activeFilter || "").trim().toLowerCase();
+
+  return servicios.filter(x => {
+    const name = String(x.nombre || "").toLowerCase();
+    const okQ = !q || name.includes(q);
+    const okF = !f || name.includes(f);
+    return okQ && okF;
+  });
+}
+
 
     function render(){
-      const list = getFiltered();
+  const list = getFiltered();
 
-      $("status").textContent = `Mostrando ${list.length} de ${servicios.length} servicios`;
+  const q = $("q").value.trim();
+  const hasFilter = !!activeFilter;
+  const isMobile = window.matchMedia("(max-width:720px)").matches;
 
-      // GRID (PC)
-      $("grid").innerHTML = list.map((x, i) => buildCardHTML(x, i)).join("");
+  let visible = list;
+  if (!q && !hasFilter) {
+    visible = list.slice(0, isMobile ? 6 : 12);
+  }
 
-      // Carrusel (móvil)
-      carFiltered = list;
-      if (carIndex >= carFiltered.length) carIndex = Math.max(0, carFiltered.length - 1);
-      renderCarousel();
-    }
+  $("status").textContent = (!q && !hasFilter)
+    ? `Mostrando ${visible.length} de ${servicios.length} servicios`
+    : `Mostrando ${list.length} resultados`;
 
-    function renderCarousel(){
-      const total = carFiltered.length;
+  $("grid").innerHTML = visible.map((x, i) => buildCardHTML(x, i)).join("");
+}
 
-      if (total === 0){
-        $("carInd").textContent = "Sin resultados";
-        $("carStage").innerHTML = "";
-        return;
-      }
-
-      $("carInd").textContent = `${carIndex + 1} / ${total}`;
-
-      const x = carFiltered[carIndex];
-      const realIndex = servicios.indexOf(x);
-
-      $("carStage").innerHTML = buildCardHTML(x, realIndex);
-
-      $("carPrev").disabled = (carIndex === 0);
-      $("carNext").disabled = (carIndex === total - 1);
-    }
-
-    function carPrev(){
-      if (carIndex > 0){
-        carIndex--;
-        renderCarousel();
-      }
-    }
-    function carNext(){
-      if (carIndex < carFiltered.length - 1){
-        carIndex++;
-        renderCarousel();
-      }
-    }
 
     function openDetalles(index){
       seleccionado = servicios[index];
@@ -699,64 +833,99 @@ $("dtImgWrap").innerHTML = seleccionado.imagen
       });
     }
 
+    function setLogo(url){
+  const img = $("logoTop");
+  const u = String(url || "").trim();
+  if (!u) { img.style.display="none"; return; }
+  img.src = u;
+  img.style.display = "block";
+}
+
+function setBanner(url){
+  const box = $("bannerBox");
+  const img = $("bannerImg");
+  const u = String(url || "").trim();
+  if (!u) { box.style.display="none"; return; }
+  img.src = u;
+  box.style.display="block";
+}
+
+function renderIcons(icons){
+  const row = $("iconRow");
+  row.innerHTML = "";
+
+  (Array.isArray(icons) ? icons : []).forEach((it) => {
+    const name = String(it.name || "").trim();
+    const icon = String(it.icon || "").trim();
+    if (!name || !icon) return;
+
+    const btn = document.createElement("button");
+    btn.className = "iconBtn";
+    btn.type = "button";
+    btn.title = name;
+    btn.innerHTML = `<img src="${escapeHtml(icon)}" alt="${escapeHtml(name)}">`;
+
+    btn.addEventListener("click", () => {
+      activeFilter = (activeFilter && activeFilter.toLowerCase() === name.toLowerCase()) ? "" : name;
+
+      // marcar active
+      document.querySelectorAll(".iconBtn").forEach(b => b.classList.remove("active"));
+      if (activeFilter) btn.classList.add("active");
+
+      render();
+    });
+
+    row.appendChild(btn);
+  });
+}
+
+function scrollIcons(dir){
+  $("iconRow").scrollBy({ left: dir * 260, behavior: "smooth" });
+}
+
+    
     // ✅ Carga catálogo desde Worker
     async function load(){
-      $("status").textContent = "Cargando…";
+  $("status").textContent = "Cargando…";
 
-      try{
-        const res = await fetch(`${API_BASE}/api/catalogo`, { method: "GET" });
-        const data = await res.json();
+  try{
+    const res = await fetch(`${API_BASE}/api/catalogo`, { method: "GET" });
+    const data = await res.json();
 
-        if (!data.ok) throw new Error(data.error || "No ok");
+    if (!data.ok) throw new Error(data.error || "No ok");
 
-        servicios = Array.isArray(data.items) ? data.items : [];
-        carIndex = 0;
-        render();
-      }catch(err){
-        $("status").textContent = "Error cargando catálogo: " + (err?.message || err);
-      }
-    }
+    meta.logoUrl = data.logoUrl || "";
+    meta.bannerUrl = data.bannerUrl || "";
+    meta.icons = Array.isArray(data.icons) ? data.icons : [];
+
+    servicios = Array.isArray(data.items) ? data.items : [];
+    activeFilter = "";
+
+    setLogo(meta.logoUrl);
+    setBanner(meta.bannerUrl);
+    renderIcons(meta.icons);
+
+    render();
+  }catch(err){
+    $("status").textContent = "Error cargando catálogo: " + (err?.message || err);
+  }
+}
+
 
     // Eventos
     $("btnPortal").addEventListener("click", () => {
   window.location.href = "portal.html";
 });
 
-    $("q").addEventListener("input", () => {
-      carIndex = 0;
-      render();
-    });
-    $("btnReload").addEventListener("click", load);
+$("q").addEventListener("input", () => {
+  render();
+});
 
-    $("carPrev").addEventListener("click", carPrev);
-    $("carNext").addEventListener("click", carNext);
+$("btnReload").addEventListener("click", load);
 
-    (function enableSwipe(){
-      let startX = 0, startY = 0, tracking = false;
+$("iconPrev").addEventListener("click", () => scrollIcons(-1));
+$("iconNext").addEventListener("click", () => scrollIcons(1));
 
-      $("carStage").addEventListener("touchstart", (e) => {
-        if (!e.touches || e.touches.length !== 1) return;
-        tracking = true;
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-      }, {passive:true});
-
-      $("carStage").addEventListener("touchend", (e) => {
-        if (!tracking) return;
-        tracking = false;
-
-        const t = e.changedTouches && e.changedTouches[0];
-        if (!t) return;
-
-        const dx = t.clientX - startX;
-        const dy = t.clientY - startY;
-
-        if (Math.abs(dy) > Math.abs(dx)) return;
-
-        if (dx < -40) carNext();
-        else if (dx > 40) carPrev();
-      }, {passive:true});
-    })();
 
     $("btnCerrarDetalles").addEventListener("click", closeDetalles);
     $("overlayDetalles").addEventListener("click", (e) => {
@@ -773,6 +942,7 @@ $("dtImgWrap").innerHTML = seleccionado.imagen
       if (e.target === $("overlayAvisame")) closeAvisame();
     });
 
+    
     load();
   </script>
 </body>
