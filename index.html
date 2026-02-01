@@ -713,7 +713,7 @@
       return v ? `S/ ${escapeHtml(v)}` : "Consultar";
     }
 
-function buildCardHTML(x, i){
+function buildCardHTML(x, realIndex){
   const img = x.imagen
     ? `<img
          src="${escapeHtml(x.imagen).replace(/sz=w\\d+/,'sz=w400')}"
@@ -749,7 +749,7 @@ function buildCardHTML(x, i){
   <div class="price">${priceText(x.precio)}</div>
 </div>
         <div class="actions">
-          <button class="btn btn-primary" onclick="openDetalles(${i})">Ver detalles</button>
+          <button class="btn btn-primary" onclick="openDetalles(${realIndex})">Ver detalles</button>
           ${buyBtn}
         </div>
       </div>
@@ -787,7 +787,10 @@ function buildCardHTML(x, i){
     ? `Mostrando ${visible.length} de ${servicios.length} servicios`
     : `Mostrando ${list.length} resultados`;
 
-  $("grid").innerHTML = visible.map((x, i) => buildCardHTML(x, i)).join("");
+  $("grid").innerHTML = visible
+  .map((x) => buildCardHTML(x, servicios.indexOf(x)))
+  .join("");
+
 }
 
 
