@@ -699,7 +699,6 @@
     let servicios = [];
     let seleccionado = null;
 
-    let meta = { logoUrl:"", bannerUrl:"", icons:[] };
     let activeFilter = ""; // filtro por icono (ej. "Netflix")
 
     const $ = (id) => document.getElementById(id);
@@ -804,7 +803,7 @@ function buildCardHTML(x, realIndex){
 }
 
 
-    function render(){
+function render(){
   const list = getFiltered();
 
   const q = $("q").value.trim();
@@ -820,11 +819,13 @@ function buildCardHTML(x, realIndex){
     ? `Mostrando ${visible.length} de ${servicios.length} servicios`
     : `Mostrando ${list.length} resultados`;
 
-  $("grid").innerHTML = visible
-  .map((x) => buildCardHTML(x, servicios.indexOf(x)))
-  .join("");
-
+  // ✅ aquí viene el fix: pasamos el índice del elemento dentro de "servicios"
+  $("grid").innerHTML = visible.map((x) => {
+    const idx = servicios.findIndex(s => (s.nombre || "").trim() === (x.nombre || "").trim());
+    return buildCardHTML(x, idx);
+  }).join("");
 }
+
 
 
     function openDetalles(index){
@@ -962,33 +963,1028 @@ function scrollIcons(dir){
   $("iconRow").scrollBy({ left: dir * 260, behavior: "smooth" });
 }
 
+
+
+
+const CATALOGO_LOCAL = [
+  // =========================
+  // 01) NETFLIX PLAN 1
+  // =========================
+  {
+    nombre: "Netflix Plan 1",
+    imagen: "assets/cards/Netflix.jpg",
+    precio: "14.00",
+    descripcion: `🍿 NETFLIX PREMIUM 4K UHD – PLAN 1
+
+Disfruta Netflix en calidad Ultra HD 4K, sin anuncios y con una experiencia fluida pensada para uso personal.
+
+✨Qué incluye
+
+🏆 Pagina Web de códigos y contraseñas actualizadas
+📺 1 dispositivo en reproducción simultánea
+🔐 Perfil privado con PIN, solo para ti
+🎬 Contenido completo de Netflix en máxima calidad
+🔄 Cambios ocasionales incluidos, con garantía inmediata
+
+💡 Beneficios
+• Soporte inmediato en caso la membresia se desactive
+• Imagen nítida y sonido envolvente en contenido 4K UHD
+• Experiencia sin interrupciones ni anuncios
+• Perfil exclusivo que protege tus recomendaciones y avances
+• Ideal si ves Netflix de forma individual y constante
+
+⚠️ Límites del plan
+• Solo 1 dispositivo puede reproducir a la vez
+• Uso permitido en 1 TV y 1 PC o celular (no simultáneo)
+• No puede compartir con otras personas la cuenta`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 02) NETFLIX PLAN 2
+  // =========================
+  {
+    nombre: "Netflix Plan 2",
+    imagen: "assets/cards/NetflixPlan2.jpg",
+    precio: "16.00",
+    descripcion: `🍿 NETFLIX PREMIUM 4K UHD – PLAN 2
+
+Accede a Netflix en calidad Ultra HD 4K, sin anuncios y con una experiencia más estable y confiable, ideal para quienes buscan cero interrupciones.
+
+✨ Qué incluye
+
+🏆 Pagina Web de códigos y contraseñas actualizadas
+📺 1 dispositivo en reproducción simultánea
+🔐 Perfil privado con PIN, uso exclusivo
+🎬 Catálogo completo de Netflix en máxima calidad 4K
+🔥 Membresía Original Perú, mayor estabilidad
+
+💡 Beneficios
+• Membresia SIEMPRE activa.
+• Reproducción fluida y estable, incluso en horarios de alta demanda
+• Perfil personal que mantiene tus avances y recomendaciones
+• Calidad de imagen superior en series, películas y documentales
+• Más confiabilidad frente a caídas o bloqueos
+
+⚠️ Límites del plan
+• Solo 1 dispositivo puede reproducir a la vez
+• Permite conexión en 1 TV + 1 PC o celular (no simultáneo)
+• No puede compartir con otras personas la cuenta`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 03) NETFLIX PLAN 3
+  // =========================
+  {
+    nombre: "Netflix Plan 3",
+    imagen: "assets/cards/NetflixPlan3.jpg",
+    precio: "18.00",
+    descripcion: `🍿 NETFLIX PREMIUM 4K UHD – PLAN 3
+
+La experiencia más completa de Netflix en calidad Ultra HD 4K, pensada para quienes buscan máxima estabilidad, control total y acceso desde todos sus dispositivos.
+
+✨ Qué incluye
+
+🎬 Calidad Premium 4K UHD, sin anuncios
+📧 Activación directa en tu propio correo
+🔥 Membresía Original Perú ultra estable
+📱 Conecta todos tus dispositivos (TV, PC, celular, tablet, etc.)
+
+💡 Beneficios
+• Control total de tu cuenta al estar activada en tu propio correo
+• Solo tu tienes acceso a esa cuenta
+• Puedes cambiar la contraseña a la que desees
+• Mayor estabilidad y continuidad en el servicio
+• Libertad para usar Netflix en cualquiera de tus dispositivos o compartirlo con quien quieras
+• Experiencia premium sin interrupciones
+
+⚠️ Límites del plan
+🔁 Solo 1 dispositivo reproduce a la vez`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 04) DISNEY PREMIUM
+  // =========================
+  {
+    nombre: "Disney Premium",
+    imagen: "assets/cards/Disney.jpg",
+    precio: "8.00",
+    descripcion: `🎬✨ DISNEY+, HULU Y ESPN — PLAN PREMIUM
+
+El plan más completo y exclusivo, ideal para quienes buscan entretenimiento total, deportes en vivo y contenido premium en una sola suscripción.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual de la cuenta
+💎 Acceso completo a Disney+ (Disney, Pixar, Marvel, Star Wars y National Geographic)
+💎 Acceso premium a Hulu con series y películas exclusivas
+💎 Acceso total a ESPN con deportes en vivo y programación premium
+📺 Reproducción en calidad HD y 4K
+🔐 Perfil protegido con PIN de seguridad
+🛡️ Garantía activa durante todo el periodo contratado
+
+💡 Beneficios
+• Todo el contenido premium en una sola cuenta
+• Amplia variedad de entretenimiento para todas las edades
+• Acceso a estrenos, originales y deportes sin cambiar de plataforma
+• Experiencia estable y fluida
+• Perfil seguro y personalizado
+• Ideal para quienes buscan el plan más completo disponible
+
+⚠️ Límites del plan
+• 🔁 Reproducción sujeta a los límites oficiales del plan premium
+• Uso personal según las políticas de Disney+, Hulu y ESPN`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 05) HBO MAX ESTANDAR
+  // =========================
+  {
+    nombre: "HBO MAX Estandar",
+    imagen: "assets/cards/MaxEstandar.jpg",
+    precio: "4.50",
+    descripcion: `⚜️ HBO MAX — PLAN ESTÁNDAR FULL HD
+
+Un plan ideal para disfrutar todo el contenido de Max con buena calidad y uso personal.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso completo a todo el catálogo de Max
+📺 Calidad Full HD (1080p)
+👤 1 perfil privado dentro de una cuenta compartida
+🔐 Perfil protegido con PIN de seguridad
+🛡️ Garantía activa durante todo el periodo contratado
+
+💡 Beneficios
+• Buena calidad de imagen para uso diario
+• Perfil exclusivo con historial propio
+• Acceso completo a series y películas originales
+• Ideal para celulares, laptops y TVs Full HD
+
+⚠️ Límites del plan
+• 🔁 1 reproducción simultánea por perfil
+• ⚠️ La cuenta es compartida con otros usuarios: solo permite 2 dispositivos reproduciendo en total entre todos los perfiles.`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 06) HBO MAX PLATINO
+  // =========================
+  {
+    nombre: "HBO MAX Platino",
+    imagen: "assets/cards/HBO Max.jpg",
+    precio: "7.00",
+    descripcion: `⚜️ HBO MAX — PLAN PLATINO
+
+La experiencia más completa de Max, ideal para quienes buscan calidad de cine, sonido envolvente y una experiencia premium.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso completo a todo el catálogo de Max
+📺 Calidad 4K Ultra HD
+🔊 Audio Dolby Atmos
+👤 1 perfil privado dentro de una cuenta compartida
+🔐 Perfil protegido con PIN de seguridad
+🛡️ Garantía activa durante todo el periodo contratado
+
+💡 Beneficios
+• Máxima calidad de imagen y sonido
+• Perfil individual y personalizado
+• Tus avances y recomendaciones se mantienen
+• Experiencia estable y fluida
+• Ideal para Smart TV y pantallas grandes
+
+⚠️ Límites del plan
+• 🔁 1 reproducción simultánea por perfil
+• Sin inconvenientes por limites de reproducción en caso otros esten viendo en su perfil.`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 07) PRIME VIDEO ECONOMICO
+  // =========================
+  {
+    nombre: "Prime Video Economico",
+    imagen: "assets/cards/PrimeVideo.jpg",
+    precio: "5.00",
+    descripcion: `🤩 AMAZON PRIME VIDEO — PLAN 2 ECONÓMICO
+
+Una opción más accesible para disfrutar Prime Video, ideal si buscas ahorrar y aceptas algún inconveniente ocasional.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso al catálogo de Amazon Prime Video
+📺 Calidad HD / 4K (según contenido disponible)
+👤 1 perfil dentro de una cuenta compartida
+🌍 Membresía de otro país (el catálogo puede variar)
+🛡️ Garantía de reemplazo en caso de caída
+
+💡 Beneficios
+• Precio más económico
+• Acceso a series y películas originales
+• Perfil individual con historial propio
+• Garantía activa: si se cae, se reemplaza
+• Ideal si buscas ahorrar
+
+⚠️ Límites del plan
+• 🔁 1 reproducción simultánea por perfil
+• ⏳ Cuenta compartida, deja reproducir 4 perfiles a la vez, los demás deberán esperar a que uno deje de reproducir
+• 🌍 El contenido puede variar según el país de la membresía
+• ❌ No incluye contenido de alquiler o compra adicional`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 08) PRIME VIDEO ORIGINAL
+  // =========================
+  {
+    nombre: "Prime Video Original",
+    imagen: "assets/cards/PrimeOriginal.jpg",
+    precio: "9.00",
+    descripcion: `🤩 AMAZON PRIME VIDEO — PLAN 1 ORIGINAL PERÚ
+
+El plan más estable de Prime Video, ideal para quienes buscan continuidad, renovación mensual y acceso al catálogo oficial de Perú.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso completo al catálogo de Amazon Prime Video
+📺 Calidad 4K Ultra HD (según contenido disponible)
+👤 1 perfil privado dentro de una cuenta compartida
+🔥 Membresía Original Perú ultra estable
+🛡️ Garantía activa durante todo el periodo contratado
+
+💡 Beneficios
+• Mayor estabilidad y continuidad del servicio
+• Perfil personal con historial y recomendaciones propias
+• Renovable mes a mes sin inconvenientes
+• Menor riesgo de caídas o bloqueos
+• Ideal para uso frecuente y sin preocupaciones
+
+⚠️ Límites del plan
+• 🔁 1 reproducción simultánea por perfil
+• ⏳ Cuenta compartida, deja reproducir 4 perfiles a la vez, los demás deberán esperar a que uno deje de reproducir
+• ❌ No incluye contenido de alquiler o compra adicional`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 09) DIRECTV PLAN ORO
+  // =========================
+  {
+    nombre: "DirecTV Plan Oro",
+    imagen: "assets/cards/DirecTV.jpg",
+    precio: "14.00",
+    descripcion: `👑 DIRECTV GO ORIGINAL — PLAN ORO
+
+El plan más completo de DIRECTV GO, pensado para quienes quieren más dispositivos y acceso al fútbol peruano (L1MAX).
+
+✨ Qué incluye
+
+📺 Activación exclusiva para TV (Smart TV o TV Box compatible)
+🎬 Canales nacionales e internacionales
+🏀 Acceso a DSports, ESPN, canales de películas y series
+⚽ Incluye L1MAX (fútbol peruano)
+👤 1 acceso dentro de una cuenta compartida
+🛡️ Garantía activa durante el periodo contratado
+
+💡 Beneficios
+• Acceso a fútbol peruano en vivo
+• Ideal para hogares con varios usuarios
+• Experiencia completa de TV y deportes
+
+⚠️ Límites del plan
+📺 Solo funciona en TV
+🔁 Uso permitido en 1 dispositivo
+👥 Cuenta compartida con otros usuarios
+🔢 La cuenta permite 4 dispositivos reproduciendo en total
+⚽ L1MAX solo permite 2 dispositivos en simultáneo
+⏳ Si se alcanza el límite, se debe esperar a que otro deje de reproducir`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 10) DIRECTV PLAN BRONCE
+  // =========================
+  {
+    nombre: "DirecTV Plan Bronce",
+    imagen: "assets/cards/DGO.jpg",
+    precio: "10.00",
+    descripcion: `👑 DIRECTV GO ORIGINAL — PLAN BRONCE
+
+Servicio de TV en vivo ideal para quienes buscan canales nacionales e internacionales, deportes y entretenimiento general, con uso sencillo desde el televisor.
+
+✨ Qué incluye
+
+📺 Activación exclusiva para TV (Smart TV o TV Box compatible)
+🎬 Canales nacionales e internacionales
+🏀 Acceso a DSports, ESPN, canales de películas y series
+👤 1 acceso dentro de una cuenta compartida
+🛡️ Garantía activa durante todo el periodo contratado
+
+💡 Beneficios
+• Ideal para ver TV en vivo desde casa
+• Buena variedad de deportes y entretenimiento
+• Estable para uso diario
+• Fácil instalación desde la app del televisor
+
+⚠️ Límites del plan
+📺 Solo funciona en TV
+🔁 Uso permitido en 1 dispositivo
+👥 Cuenta compartida con otros usuarios
+🔢 La cuenta permite 2 dispositivos reproduciendo en total de los 3 que comparten la cuenta
+⛔ No incluye L1MAX (fútbol peruano)`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 11) MOVISTAR TV
+  // =========================
+  {
+    nombre: "MovistarTV",
+    imagen: "assets/cards/MovistarTV.jpg",
+    precio: "15.00",
+    descripcion: `📺 MOVISTAR TV
+
+Disfruta TV en vivo con deportes y canales premium, ideal para quienes quieren fútbol peruano y programación variada en un solo servicio.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del acceso
+📺 Acceso a Movistar TV con canales nacionales
+⚽ Gol Perú incluido
+🏀 ESPN incluido
+🎥 Movistar Deportes incluido
+👤 1 acceso dentro de una cuenta compartida
+
+💡 Beneficios
+• Acceso a fútbol peruano y deportes en vivo
+• Canales premium de entretenimiento y deportes
+• Experiencia estable y fluida
+• Ideal para ver TV en casa o desde el celular
+
+⚠️ Límites del plan
+• 🔁 Solo 1 reproducción simultánea por usuario
+• 👥 La cuenta es compartida por 3 personas
+• 🖥️ La cuenta permite máximo 2 reproducciones en total
+• ⏳ Si se alcanza el límite, se debe esperar a que otro deje de reproducir
+• 📧 Entrega mediante correo y contraseña`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 12) VIX PREMIUM
+  // =========================
+  {
+    nombre: "Vix Premium",
+    imagen: "assets/cards/VixPremium.jpg",
+    precio: "4.00",
+    descripcion: `🟠⚡️ VIX PREMIUM ⚡️🟠
+
+La plataforma ideal para quienes disfrutan contenido latino, novelas, clásicos y eventos especiales, con una experiencia simple y directa.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso a películas, series y programas exclusivos de ViX Premium
+📺 Novelas mexicanas y colombianas completas
+😂 Contenido clásico como El Chavo del 8 y producciones icónicas
+📡 Canales en vivo disponibles dentro de la plataforma
+⚽ Transmisiones deportivas seleccionadas (eventos especiales como Champions, según disponibilidad)
+👤 1 perfil personalizado
+🛡️ Soporte garantizado durante el periodo contratado
+
+💡 Beneficios
+• Amplio catálogo de contenido latino
+• Acceso a novelas completas sin cortes
+• Idioma original y doblajes disponibles
+• Perfil personal con historial propio
+• Ideal para fans del contenido clásico y novelas
+• Plataforma ligera y fácil de usar
+
+⚠️ Límites del plan
+• 🔁 1 dispositivo reproduce a la vez
+• 👥 Perfil dentro de una cuenta compartida
+• ⚽ Eventos deportivos sujetos a disponibilidad de la plataforma`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 13) VIKI RAKUTEN
+  // =========================
+  {
+    nombre: "Viki Rakuten",
+    imagen: "assets/cards/VikiRakuten.jpg",
+    precio: "5.00",
+    descripcion: `🎎 RAKUTEN VIKI — VIKI PASS PLUS (CUENTA COMPARTIDA) ✨
+
+La plataforma ideal para fans del drama asiático, con acceso premium a series coreanas, chinas, japonesas y más, sin anuncios.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso completo a Viki Pass Plus
+🚫 Reproducción sin anuncios
+🌏 Dramas coreanos, chinos, japoneses y tailandeses
+🎥 Series, películas y contenido exclusivo
+💬 Subtítulos oficiales en varios idiomas
+📺 Compatible con Smart TV, TV Box y dispositivos soportados
+🛠️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Acceso al catálogo premium completo
+• Contenido exclusivo que no está disponible en la versión gratuita
+• Subtítulos de alta calidad en múltiples idiomas
+• Ideal para amantes del K-Drama y contenido asiático
+• Plataforma estable y fácil de usar
+
+⚠️ Límites del plan
+• 👥 Cuenta compartida (cupos limitados)
+• 📱 El número de dispositivos registrados puede variar según la cuenta`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 14) CRUNCHYROLL
+  // =========================
+  {
+    nombre: "Crunchyroll",
+    imagen: "assets/cards/Crunchyroll.jpg",
+    precio: "5.00",
+    descripcion: `🍥🔥 CRUNCHYROLL — MEGA FAN (CUENTA COMPARTIDA) 🔥🍥
+
+El plan ideal para verdaderos fans del anime, con estrenos rápidos, sin anuncios y beneficios premium para ver donde quieras.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso completo al catálogo Crunchyroll Mega Fan
+🚫 Reproducción sin anuncios
+⚡ Estrenos poco después de su emisión en Japón
+⬇️ Descargas offline para ver sin internet
+👤 1 perfil dentro de una cuenta compartida
+📺 Compatible con Smart TV, consolas, PC y móviles
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Catálogo completo de anime clásico y actual
+• Estrenos rápidos y temporadas completas
+• Ver sin anuncios ni interrupciones
+• Descargas para viajes o zonas sin conexión
+• Ideal para maratones y seguimiento semanal
+
+⚠️ Límites del plan
+• 🔁 1 reproducción por perfil`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 15) CHAT GPT PLUS
+  // =========================
+  {
+    nombre: "CHAT GPT Plus",
+    imagen: "assets/cards/ChatGPT.jpg",
+    precio: "20.00",
+    descripcion: `🤖✨ CHATGPT PLUS — CUENTA COMPARTIDA ✨🤖
+
+Accede a ChatGPT Plus con mayor potencia, respuestas más rápidas y acceso a modelos avanzados, ideal para estudio, trabajo y creación de contenido.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del acceso
+🤖 Acceso a ChatGPT Plus con modelos avanzados
+⚡ Respuestas más rápidas y mayor estabilidad
+🧠 Mejor razonamiento y capacidad para tareas complejas
+✍️ Ideal para redacción, estudio, programación y análisis
+👤 1 acceso dentro de una cuenta compartida
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Cuenta Original (Sin caidas ni cambios).
+• Carpeta con tu nombre para mayor privacidad y orden.
+• Mayor precisión y fluidez en las respuestas
+• Herramienta versátil para múltiples tareas
+• Acceso continuo incluso en horas de alta demanda
+
+⚠️ Límites del plan
+• 🔁 Solo 1 dispositivo conectado (PC, laptop o celular)
+• 🔒 El dispositivo elegido no se puede cambiar
+• 👥 Cuenta compartida con otros usuarios
+• ⚠️ Cambios de dispositivo pueden generar bloqueo del acceso
+• Uso sujeto a las políticas de OpenAI`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 16) PARAMOUNT+
+  // =========================
+  {
+    nombre: "Paramount",
+    imagen: "assets/cards/Paramount.jpg",
+    precio: "5.00",
+    descripcion: `🎬⭐ PARAMOUNT+ — CUENTA COMPARTIDA ⭐🎬
+
+Una plataforma con series y películas exclusivas, clásicos del cine y contenido original, ideal para quienes buscan variedad y estrenos sin anuncios.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual
+🎬 Acceso completo al catálogo de Paramount+
+🎥 Series y películas originales exclusivas
+📺 Contenido de Paramount Pictures, Showtime y Nickelodeon
+⚽ Eventos deportivos seleccionados (según disponibilidad regional)
+👤 1 perfil dentro de una cuenta compartida
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Acceso a estrenos y originales exclusivos
+• Catálogo variado para adultos y niños
+• Perfil personal con historial y recomendaciones
+• Plataforma estable y fácil de usar
+• Ideal para maratones de series y películas
+
+⚠️ Límites del plan
+• 🔁 1 reproducción por perfil
+• 👥 La cuenta es compartida con otros usuarios
+• 👀 El límite total de reproducciones simultáneas de la cuenta puede variar; si se alcanza, se debe esperar a que otro deje de reproducir
+• 📺 Disponibilidad de contenido sujeta a la región`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 17) CANVA PRO
+  // =========================
+  {
+    nombre: "Canva Pro",
+    imagen: "assets/cards/Canva.jpg",
+    precio: "5.00",
+    descripcion: `🎨✨ CANVA PRO — DISEÑO SIN LÍMITES ✨🎨
+
+La herramienta ideal para crear diseños profesionales de forma rápida y sencilla, perfecta para redes sociales, negocios, estudios y proyectos personales.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del acceso
+🎨 Acceso completo a Canva Pro
+🖼️ Millones de plantillas premium, fotos, videos, íconos y gráficos
+✂️ Eliminador de fondo para imágenes y videos
+📐 Redimensionado mágico para todas las redes sociales
+☁️ Almacenamiento en la nube para tus diseños
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Activación a cuenta Propia
+• Diseños profesionales sin necesidad de experiencia
+• Ahorra tiempo con plantillas listas para usar
+• Ideal para emprendedores, estudiantes y creadores de contenido
+• Herramientas avanzadas sin pagar licencias por separado
+• Acceso desde PC, laptop o celular`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 18) GEMINI PRO IA + DRIVE
+  // =========================
+  {
+    nombre: "Gemini Pro IA + Drive",
+    imagen: "assets/cards/Gemini IA & Drive.jpg",
+    precio: "5.00",
+    descripcion: `🤖✨ GEMINI PRO IA + 2 TB + GOOGLE MEET PREMIUM ✨🤖
+
+El plan más avanzado de Google, ideal para quienes buscan inteligencia artificial potente, almacenamiento amplio y herramientas profesionales para estudio, trabajo o creación de contenido.
+
+✨ Qué incluye
+
+🤖 Acceso a Gemini Advanced (Gemini Pro IA)
+☁️ 2 TB de almacenamiento en Google One (Drive, Gmail y Fotos)
+🎥 Google Meet Premium (reuniones extendidas y funciones avanzadas)
+🧠 IA integrada en Gmail, Docs, Sheets y Slides
+📧 Activación directa en cuenta Google
+🛡️ Soporte activo durante el periodo contratado
+
+💡 Beneficios
+• Activación a cuenta Propia
+• Acceso a la IA más avanzada de Google
+• Ideal para estudiar, programar, escribir, analizar y crear contenido
+• Más espacio para archivos, correos y fotos
+• Videollamadas más largas y estables
+• Herramientas inteligentes directamente en Google Workspace
+• Perfecto para uso profesional y académico
+
+⚠️ Límites del plan
+• 🎥 Funciones premium de Meet dependen de disponibilidad regional`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 19) DEEZER PREMIUM
+  // =========================
+  {
+    nombre: "Deezer Premium",
+    imagen: "assets/cards/Deezer.jpg",
+    precio: "5.00",
+    descripcion: `🎧 DEEZER PREMIUM — MÚSICA SIN LÍMITES
+
+Disfruta música y podcasts con una experiencia sin anuncios, con descargas offline y sonido de alta calidad, ideal para escuchar todo el día.
+
+✨ Qué incluye
+
+🚫 Música sin anuncios
+⬇️ Descargas para escuchar sin internet
+🎶 Audio de alta calidad (incluye HiFi / FLAC 16-bit / 44.1 kHz en planes Premium según Deezer)
+🔁 Saltos ilimitados y reproducción libre
+
+💡 Beneficios
+• Cuenta individual: No compartido con otras personas
+• Conecta todos tus dispositivos
+• Escuchas offline para viajes o cuando no tienes datos
+• Compatible con varios dispositivos y ecosistemas (ej. smart devices)
+
+⚠️ Límites del plan
+• 🔁 Reproducción en 1 dispositivo a la vez (si alguien está usando, el otro debe esperar)
+• 📱 Para “vincular/descargar” suele permitir hasta 3 dispositivos en planes Premium (si agregas otro, puede cerrar sesión en uno anterior)`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 20) SPOTIFY PREMIUM (A TU CORREO)
+  // =========================
+  {
+    nombre: "Spotify Premium (a tu correo)",
+    imagen: "assets/cards/SpotifyPlan15.jpg",
+    precio: "15.00",
+    descripcion: `SPOTIFY PREMIUM — PLAN ORIGINAL
+
+La opción más estable y recomendada para quienes buscan uso continuo, control total y cero inconvenientes.
+
+✨ Qué incluye
+
+🏆 Activación directa en tu propio correo
+🎶 Acceso completo a Spotify Premium
+🚫 Música sin anuncios
+⬇️ Descargas para escuchar sin internet
+🔁 Saltos ilimitados
+📱 Compatible con celular, PC, laptop, Smart TV y otros dispositivos
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Cuenta 100% personal y original
+• Mayor estabilidad, sin caídas
+• Renovable mes a mes
+• Recomendaciones personalizadas
+• Ideal para uso diario e intensivo`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 21) SPOTIFY PREMIUM
+  // =========================
+  {
+    nombre: "Spotify Premium",
+    imagen: "assets/cards/SpotifyPlan10.jpg",
+    precio: "10.00",
+    descripcion: `🎵 SPOTIFY PREMIUM — PLAN ECONÓMICO
+
+Una alternativa accesible para disfrutar Spotify Premium ahorrando, con garantía durante el periodo contratado.
+
+✨ Qué incluye
+
+🏆 Entrega de cuenta ya activa (Solo tú tienes acceso)
+🎶 Acceso completo a Spotify Premium
+🚫 Música sin anuncios
+⬇️ Descargas offline
+🔁 Saltos ilimitados
+📱 Compatible con dispositivos soportados
+🛡️ Garantía activa durante el tiempo contratado
+
+💡 Beneficios
+• Precio más económico
+• Acceso premium completo
+• Ideal si buscas ahorrar
+• Garantía ante inconvenientes`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 22) YOUTUBE PREMIUM
+  // =========================
+  {
+    nombre: "YouTube Premium",
+    imagen: "assets/cards/YTPremium.jpg",
+    precio: "15.00",
+    descripcion: `▶️✨ YOUTUBE PREMIUM — CUENTA PROPIA (CORREO PERSONAL) ✨▶️
+
+Disfruta YouTube sin anuncios, con reproducción en segundo plano y descargas, activado directamente en tu propio correo, para una experiencia estable y totalmente personal.
+
+✨ Qué incluye
+
+🏆 Activación directa en tu propio correo
+🚫 Videos sin anuncios en YouTube
+⬇️ Descargas offline para ver sin internet
+🔁 Reproducción en segundo plano (mientras usas otras apps)
+🎵 Acceso a YouTube Music Premium
+📱 Compatible con celular, PC, laptop, Smart TV y tablet
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Cuenta 100% ORIGINAL y RENOVABLE
+• Conecta todos los dispositivos que gustes
+• Reproducción en multiples dispositivos en simultaneo
+• Videos y música sin interrupciones
+
+⚠️ Límites del plan
+• 📧 El correo NO debe pertenecer a otro grupo familiar Premium para la activación`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 23) APPLE MUSIC
+  // =========================
+  {
+    nombre: "Apple Music",
+    imagen: "assets/cards/AppleMusic.jpg",
+    precio: "10.00",
+    descripcion: `🍎🎶 APPLE MUSIC — CUENTA PROPIA🎶🍎
+
+Disfruta Apple Music con tu propio correo, acceso total al catálogo y una experiencia musical premium, estable y sin anuncios.
+
+✨ Qué incluye
+
+🏆 Activación directa en tu propio correo o Apple ID
+🎶 Acceso completo al catálogo de Apple Music
+🚫 Música sin anuncios
+⬇️ Descargas offline para escuchar sin internet
+🎧 Audio de alta calidad
+🎼 Millones de canciones, álbumes y playlists oficiales
+📱 Compatible con iPhone, Android, PC, Mac, Smart TV y otros dispositivos
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Cuenta totalmente personal y privada
+• Recomendaciones personalizadas según tus gustos
+• Escucha sin interrupciones y sin publicidad
+• Ideal para uso diario y prolongado`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 24) APPLE TV+
+  // =========================
+  {
+    nombre: "Apple TV",
+    imagen: "assets/cards/AppleTV.jpg",
+    precio: "9.00",
+    descripcion: `🎬 APPLE TV+ — CUENTA COMPARTIDA 🎬
+
+Disfruta series y películas originales de alta calidad, con producciones exclusivas y una experiencia fluida para maratones sin anuncios.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del perfil
+🎬 Acceso completo al catálogo de Apple TV+ (No incluye contenido en alquiler ni compras).
+⭐ Series y películas originales exclusivas
+🚫 Reproducción sin anuncios
+📺 Calidad HD / 4K (según contenido y dispositivo)
+👤 1 perfil dentro de una cuenta compartida
+📱 Compatible con iPhone, iPad, Smart TV, TV Box, PC y otros dispositivos
+🛡️ Soporte activo durante todo el periodo contratado
+
+💡 Beneficios
+• Producciones originales de alta calidad
+• Estrenos constantes y catálogo cuidado
+• Experiencia estable y sin interrupciones
+• Ideal para ver en TV y pantallas grandes
+• Plataforma simple y rápida de usar
+
+⚠️ Límites del plan
+• 🔁 1 reproducción por perfil
+• 👥 La cuenta es compartida con otros usuarios
+• No incluye contenido en ALQUILER ni COMPRAS.`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 25) CAPCUT PRO
+  // =========================
+  {
+    nombre: "CapCut",
+    imagen: "assets/cards/CapCut.jpg",
+    precio: "10.00",
+    descripcion: `🎬✨ CAPCUT PRO — CUENTA COMPARTIDA ✨🎬
+
+La herramienta ideal para edición de video profesional, perfecta para creadores de contenido, redes sociales y videos con acabado premium.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del acceso
+🎥 Acceso completo a CapCut Pro
+✨ Efectos, filtros y transiciones premium
+🎶 Biblioteca de música y efectos de sonido sin marca de agua
+🖼️ Plantillas Pro listas para usar
+📱 Compatible con PC o celular
+👤 1 acceso dentro de una cuenta compartida
+🛡️ Garantía activa durante todo el periodo contratado
+
+💡 Beneficios
+• Edición profesional sin conocimientos avanzados
+• Ahorra tiempo con plantillas y efectos Pro
+• Ideal para TikTok, Reels, Shorts y YouTube
+• Exportaciones limpias y de alta calidad
+• Herramienta rápida y fácil de usar
+
+⚠️ Límites del plan
+• 🔒 Solo 1 dispositivo autorizado (PC o celular)
+• 🔁 No se permite cambiar de dispositivo
+• 👥 Cuenta compartida con otros usuarios
+• ⚠️ El uso simultáneo en otro dispositivo puede bloquear el acceso`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 26) VPN SURFSHARK
+  // =========================
+  {
+    nombre: "VPN Surfshark",
+    imagen: "assets/cards/VPN Surfshark.jpg",
+    precio: "7.00",
+    descripcion: `🔐🌍 SURFSHARK VPN ORIGINAL 🌍🔐
+
+Protege tu conexión y navega con privacidad total, acceso a contenido sin restricciones y una experiencia rápida y segura.
+
+✨ Qué incluye
+
+🔐 Acceso a Surfshark VPN Premium
+🌍 Conexión a servidores en múltiples países
+🚫 Navegación privada y cifrada
+🛡️ Protección en redes Wi-Fi públicas
+📱 Compatible con PC, laptop, celular y tablet
+👤 Acceso compartido
+🛡️ Garantía activa durante todo el periodo contratado
+
+💡 Beneficios
+• Mayor privacidad y seguridad al navegar
+• Acceso a contenido restringido por región
+• Ideal para streaming, trabajo y uso diario
+• Conexión estable y rápida
+• Fácil de usar en distintos dispositivos
+
+⚠️ Límites del plan
+• 🔁 Hasta 2 dispositivos conectados al mismo tiempo
+• ⏳No esta permitido el cambio de dispositivos`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 27) FLUJO TV
+  // =========================
+  {
+    nombre: "Flujo TV",
+    imagen: "assets/cards/FlujoTV.jpg",
+    precio: "12.00",
+    descripcion: `🎬🔥 FLUJO TV (ANTES MAGIS TV) 🔥🎬
+
+Plataforma IPTV con TV en vivo, deportes, películas y series en un solo lugar, ideal para quienes buscan todo el contenido sin cambiar de app.
+
+✨ Qué incluye
+
+🏆 Página web 24/7 para obtener la contraseña actual del acceso
+📡 Canales en vivo de múltiples países
+⚽ Todas las ligas deportivas (según programación disponible)
+🎬 Contenido de múltiples plataformas en un solo servicio
+🧮 +900 canales ⚽⚾🏀
+🎥 +30,000 películas
+📺 +6,000 series
+📱 Compatible con dispositivos Android (Smart TV Android, TV Box, celular, tablet)
+🛡️ Soporte activo durante el periodo contratado
+
+💰PRECIO:💰
+➡️ 1 Dispositivo - S/10.00 Soles
+➡️ 3 Dispositivos - S/20.00 Soles
+
+📱 Importante
+• Aplica para cualquier dispositivo con Android
+• Canales en VIVO pueden tener lag (es una app pirata)
+• Primero descargar la app. NO se realiza asesoria por ello.`,
+    tag: "Renovable"
+  },
+
+  // =========================
+  // 28) SEGUIDORES RRSS
+  // =========================
+  {
+    nombre: "Seguidores RRSS",
+    imagen: "assets/cards/Seguidores.jpg",
+    precio: "10.00",
+    descripcion: `✨🚀 SEGUIDORES PARA TIKTOK — CRECIMIENTO RÁPIDO 🚀✨
+
+Impulsa tu perfil y aumenta tu visibilidad en TikTok con seguidores reales, ideales para mejorar tu presencia y credibilidad.
+
+✨ Qué incluye
+
+🏆 Servicio rápido y automatizado
+📈 Aumento de seguidores según el paquete elegido
+🔗 Solo necesitas enviar el link de tu perfil
+🌍 Funciona para perfiles públicos
+🛡️ Proceso seguro durante el servicio
+
+💡 Paquetes disponibles
+• ✅ 1000 seguidores
+• ✅ 700 seguidores
+• ✅ 500 seguidores
+• ✅ 100 seguidores
+
+💡 Beneficios
+• Mayor credibilidad y presencia en tu perfil
+• Mejor primera impresión para nuevos visitantes
+• Más posibilidades de obtener vistas y engagement
+• Ideal para creadores nuevos o perfiles en crecimiento
+
+⚠️ Condiciones del servicio
+• ⏳ El proceso puede demorar según la cantidad solicitada
+• 🔓 El perfil debe estar en público
+• 📲 No se requiere contraseña, solo el link del perfil
+• 📊 Los resultados pueden variar según la actividad del perfil
+
+🔥 Haz que tu contenido llegue a más personas y dale el empujón que tu TikTok necesita 🚀`,
+    tag: "Renovable"
+  }
+];
+
+
+
+const ICONOS = [
+  { name:"Netflix", icon:"assets/icons/Netflix.webp" },
+  { name:"Disney", icon:"assets/icons/Disney.webp" },
+  { name:"Spotify", icon:"assets/icons/Spotify.webp" },
+  { name:"YouTube", icon:"assets/icons/Youtube.webp" },
+  { name:"HBO MAX", icon:"assets/icons/HBOMAX.webp" },
+  { name:"Prime", icon:"assets/icons/PrimeVideo.webp" },
+  { name:"Crunchyroll", icon:"assets/icons/Crunchy.webp" },
+  { name:"DirecTV", icon:"assets/icons/DGO.webp" },
+  { name:"MovistarTV", icon:"assets/icons/MovistarTV.webp" },
+  { name:"Paramount", icon:"assets/icons/Paramount.webp" },
+  { name:"Vix", icon:"assets/icons/Vix.webp" },
+  { name:"Viki", icon:"assets/icons/Viki.webp" },
+  { name:"Deezer", icon:"assets/icons/Deezer.webp" },
+  { name:"CapCut", icon:"assets/icons/CapCut.webp" },
+  { name:"CHAT GPT", icon:"assets/icons/ChatGPT.webp" },
+  { name:"Canva", icon:"assets/icons/Canva.webp" },
+  { name:"Gemini", icon:"assets/icons/Gemini.webp" },
+  { name:"Apple Music", icon:"assets/icons/AppleMusic.webp" },
+  { name:"Apple TV", icon:"assets/icons/AppleTV.webp" },
+  { name:"VPN Surfshark", icon:"assets/icons/Surfshark.webp" },
+  { name:"Flujo TV", icon:"assets/icons/flujoTV.webp" },
+  { name:"Seguidores", icon:"assets/icons/RRSS.webp" }
+];
+
+
+
+
+
+
+    
     
     // ✅ Carga catálogo desde Worker
-    async function load(){
+async function load(){
   $("status").textContent = "Cargando…";
 
   try{
-    const res = await fetch(`${API_BASE}/api/catalogo`, { method: "GET" });
+    // 1️⃣ Cargamos catálogo local (instantáneo)
+    servicios = CATALOGO_LOCAL.map(x => ({ ...x }));
+
+    // 2️⃣ Pedimos SOLO el stock al worker
+    const res = await fetch(`${API_BASE}/api/catalogo`);
     const data = await res.json();
 
     if (!data.ok) throw new Error(data.error || "No ok");
 
-    meta.logoUrl = data.logoUrl || "";
-    meta.bannerUrl = data.bannerUrl || "";
-    meta.icons = Array.isArray(data.icons) ? data.icons : [];
+    const stockMap = data.stock || {};
 
-    servicios = Array.isArray(data.items) ? data.items : [];
+    // 3️⃣ Cruzamos stock por nombre
+    servicios.forEach(s => {
+      const k = String(s.nombre || "").trim();
+      s.stock = Number(stockMap[k] ?? 0);
+    });
+
+    // 4️⃣ UI fija (local)
+    setLogo("assets/cards/Logo.png");
+    setBanner("assets/cards/Portada.jpg");
+    renderIcons(ICONOS);
+
     activeFilter = "";
-
-    setLogo(meta.logoUrl);
-    setBanner(meta.bannerUrl);
-    renderIcons(meta.icons);
-
     render();
+
   }catch(err){
     $("status").textContent = "Error cargando catálogo: " + (err?.message || err);
   }
 }
+
 
 
     // Eventos
