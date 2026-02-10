@@ -1976,7 +1976,7 @@ async function loadStock(){
   $("status").textContent = "Cargando stock…";
 
   const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 4500);
+  const t = setTimeout(() => ctrl.abort(), 20000);
 
   let data = null;
   try{
