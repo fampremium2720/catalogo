@@ -713,19 +713,21 @@
     }
 
     function toNumberStock(stock){
-      const raw = String(stock ?? "").trim();
-      if (raw === "") return 0;
-      const n = Number(raw);
-      return Number.isFinite(n) ? n : 0;
-    }
+  const raw = String(stock ?? "").trim();
+  if (raw === "" || raw === "null" || raw === "undefined") return null; // unknown
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : null;
+}
 
     // ✅ Stock sin números
     function stockBadge(stock){
   const n = toNumberStock(stock);
-  if (!n || n <= 0) return `<span class="badge bad">⛔ Agotado</span>`;
+  if (n === null) return `<span class="badge">⏳ Cargando stock…</span>`;
+  if (n <= 0) return `<span class="badge bad">⛔ Agotado</span>`;
   if (n <= 10) return `<span class="badge ok">✅ Hay stock: ${n}</span>`;
   return `<span class="badge ok">✅ Hay stock</span>`;
 }
+
 
 
     function priceText(p){
@@ -746,9 +748,9 @@ function buildCardHTML(x, realIndex){
 
   const nStock = toNumberStock(x.stock);
 
-  const buyBtn = (nStock > 0)
-    ? `<a class="btn btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
-    : `<span></span>`; // para que el grid 2 columnas no se rompa
+  const buyBtn = (nStock !== null && nStock > 0)
+  ? `<a class="btn btn-buy" href="https://wa.link/firnrr" target="_blank" rel="noopener">🛒 Comprar</a>`
+  : `<span></span>`;
 
   const tag = String(
     x.tag ?? x.renovable ?? x.estado ?? x.badge ?? x.F ?? x.colF ?? ""
@@ -758,9 +760,11 @@ function buildCardHTML(x, realIndex){
 
   // Stock chip
   let stockChip = "";
-  if (!nStock || nStock <= 0) stockChip = `<span class="chip bad">⛔ Agotado</span>`;
-  else if (nStock <= 10) stockChip = `<span class="chip ok">✅ Stock: ${nStock}</span>`;
-  else stockChip = `<span class="chip ok">✅ Hay stock</span>`;
+if (nStock === null) stockChip = `<span class="chip">⏳ Stock…</span>`;
+else if (nStock <= 0) stockChip = `<span class="chip bad">⛔ Agotado</span>`;
+else if (nStock <= 10) stockChip = `<span class="chip ok">✅ Stock: ${nStock}</span>`;
+else stockChip = `<span class="chip ok">✅ Hay stock</span>`;
+
 
   return `
     <div class="card">
@@ -1959,8 +1963,19 @@ async function load(){
     servicios = CATALOGO_LOCAL.map(x => ({ ...x }));
 
     // 2️⃣ Pedimos SOLO el stock al worker
-    const res = await fetch(`${API_BASE}/api/catalogo`);
-    const data = await res.json();
+    const ctrl = new AbortController();
+const t = setTimeout(() => ctrl.abort(), 4500); // 4.5s
+
+let data = null;
+try{
+  const res = await fetch(`${API_BASE}/api/catalogo`, { signal: ctrl.signal });
+  data = await res.json();
+} catch(e){
+  data = { ok:false };
+} finally {
+  clearTimeout(t);
+}
+
 
     if (!data.ok) throw new Error(data.error || "No ok");
 
