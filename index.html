@@ -1957,17 +1957,18 @@ const ICONOS = [
     // ✅ Carga catálogo desde Worker
 // 1) Pinta TODO lo estático al instante (sin esperar stock)
 function initUI(){
-  // catálogo local
   servicios = CATALOGO_LOCAL.map(x => ({ ...x, stock: null })); // stock desconocido al inicio
 
-  // UI fija (local)
   setLogo("assets/cards/Logo.png");
   setBanner("assets/cards/Portada.jpg");
   renderIcons(ICONOS);
 
   activeFilter = "";
-  render(); // ✅ muestra cards + imágenes + iconos YA
-  $("status").textContent = `Mostrando ${Math.min(servicios.length, window.matchMedia("(max-width:720px)").matches ? 6 : 12)} de ${servicios.length} servicios (stock cargando…)`;
+  render(); // muestra cards + imágenes + iconos YA
+
+  const isMobile = window.matchMedia("(max-width:720px)").matches;
+  const shown = Math.min(servicios.length, isMobile ? 6 : 12);
+  $("status").textContent = `Mostrando ${shown} de ${servicios.length} servicios (stock cargando…)`;
 }
 
 // 2) Trae SOLO el stock en segundo plano y refresca
@@ -1975,64 +1976,38 @@ async function loadStock(){
   $("status").textContent = "Cargando stock…";
 
   const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 4500); // 4.5s
+  const t = setTimeout(() => ctrl.abort(), 4500);
 
   let data = null;
   try{
     const res = await fetch(`${API_BASE}/api/catalogo`, { signal: ctrl.signal });
     data = await res.json();
   }catch(e){
-    data = { ok:false, error: "Stock timeout o error de red" };
+    data = { ok:false };
   }finally{
     clearTimeout(t);
   }
 
   if (!data || !data.ok){
-    // ✅ NO rompas la web: solo deja el stock como "⏳"
-    $("status").textContent = "Stock no disponible por ahora. (La web sigue funcionando)";
-    return;
+    $("status").textContent = "Stock no disponible por ahora (la web sigue funcionando)";
+    return; // NO rompe la web
   }
 
   const stockMap = data.stock || {};
 
-  // cruzar stock por nombre
   servicios.forEach(s => {
     const k = String(s.nombre || "").trim();
     const v = stockMap[k];
-
-    // si no existe en el mapa, lo dejamos en 0 (agotado) o null si prefieres "desconocido"
-    // aquí lo dejo en 0 para que lo no encontrado salga como agotado
-    s.stock = (v === undefined || v === null || v === "") ? 0 : Number(v);
+    s.stock = (v === undefined || v === null || v === "") ? null : Number(v);
   });
 
-  render(); // ✅ refresca solo chips/botones de stock
+  render();
   $("status").textContent = "Stock actualizado ✅";
 }
 
 
 
-    if (!data.ok) throw new Error(data.error || "No ok");
 
-    const stockMap = data.stock || {};
-
-    // 3️⃣ Cruzamos stock por nombre
-    servicios.forEach(s => {
-      const k = String(s.nombre || "").trim();
-      s.stock = Number(stockMap[k] ?? 0);
-    });
-
-    // 4️⃣ UI fija (local)
-    setLogo("assets/cards/Logo.png");
-    setBanner("assets/cards/Portada.jpg");
-    renderIcons(ICONOS);
-
-    activeFilter = "";
-    render();
-
-  }catch(err){
-    $("status").textContent = "Error cargando catálogo: " + (err?.message || err);
-  }
-}
 
 
 
